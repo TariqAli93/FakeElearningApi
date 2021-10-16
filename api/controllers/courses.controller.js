@@ -5,12 +5,15 @@ const Course = function (course) {
     this.courseId = course.id;
     this.courseName = course.name;
     this.courseDescription = course.description;
+    this.courseSubject = course.subject;
     this.teacher = course.teacher;
     this.videos = course.videos;
     this.students = course.students;
     this.rate = course.rate;
     this.createdAt = course.createdAt;
     this.featuredImage = course.cover;
+    this.attachments = course.attachments;
+    this.price = course.price;
 }
 const courses = [];
 
@@ -49,7 +52,8 @@ const videos = () => {
             videoURI: faker.internet.url(),
             comments: comments(),
             attachments: faker.system.commonFileName('pdf'),
-            cover: faker.random.image()
+            cover: faker.random.image(),
+            isLocked: true
         })
     }
 
@@ -63,12 +67,15 @@ export const WriteCourses = (req, res) => {
             id: faker.datatype.uuid(),
             name: faker.name.findName(),
             description: faker.random.words(Math.floor(Math.random() * 200) + 40),
+            subject: faker.random.word(),
             teacher: faker.name.findName(),
             videos: videos(),
             students: students(),
             rate: faker.datatype.number(5),
             createdAt: faker.date.between('2019', '2021').toLocaleString(),
-            cover: faker.random.image()
+            cover: faker.random.image(),
+            attachments: faker.system.commonFileName('pdf'),
+            price: faker.finance.amount(10, 300, 10, '$')
         })
         courses.push(CourseObject)
     }
